@@ -1,0 +1,51 @@
+#spring.application.name=notes
+#spring.main.allow-bean-definition-overriding=true
+#spring.jpa.generate-ddl=false
+#spring.jpa.hibernate.ddl-auto=none
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: notes
+  main:
+    allow-bean-definition-overriding: true
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: metrics, prometheus
+  endpoint:
+    health:
+      show-details: always
+#      status:
+#        http-mapping:
+#          up: 207
+#        prometheus:
+#          enabled: true
+#        endpoints:
+#          web:
+#            exposure:
+#              include: '*'
+#        metrics:
+#          export:
+#            prometheus:
+#              enabled: true
+#        info:
+#          env:
+#            enabled: true
+
+

@@ -1,0 +1,14 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: Microservice1
+  cloud:
+    gateway:
+      routes:
+        - id: Notes
+          uri: http://localhost:8080/
+          predicates:
+            - Path=/notes/**
+  

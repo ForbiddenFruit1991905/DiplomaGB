@@ -1,0 +1,3 @@
+insert into notes (header, text, status, created_date) values ('Заказать продукты на Новый Год', 'Икра, багет, все для салатов', 'COMPLETED', '2024-12-20T11:21:54.405983')
+insert into notes (header, text, status, created_date) values ('Выполнить все практические задания', 'Фреймворк Spring', 'IN_PROGRESS', '2024-12-19T11:21:54.405983')
+insert into notes (header, text, status, created_date) values ('Выбрать новогодние подарки', 'Заказать торт, праздничная одежда для близких', 'NOT_STARTED', '2024-12-30T11:21:54.405983')

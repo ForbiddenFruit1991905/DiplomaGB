@@ -1,0 +1,10 @@
+
+Ÿ
+java:S1488A"cImmediately return this expression instead of assigning it to the temporary variable "cleanedText".(«Ñ”J$36233f81-cf1c-416b-8752-a62d5b029f5d
+w	java:S125-"<This block of commented-out lines of code should be removed.(îŸÊÈJ$587cbd22-bf3f-4bd8-a562-99c6f07d0d59
+|
+java:S1075L"ARefactor your code to get this URI from a customizable parameter.(ı‘•~J$beaa3e7d-a139-4922-88c8-9f0138e90e9e
+|
+java:S1128"@Remove this unused import 'io.micrometer.core.instrument.Timer'.(ØåÏJ$48024332-ed8b-40f0-8381-021e34406e37
+r
+java:S1068"1Remove this unused "meterRegistry" private field.(Â··ÿÿÿÿÿJ$a0f90eb3-039b-4851-a27c-1933f01ad646
