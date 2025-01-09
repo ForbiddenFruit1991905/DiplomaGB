@@ -1,4 +1,4 @@
-package ru.example.notes.model;
+package ru.example.notes.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -38,6 +38,4 @@ public class User {
         note.setUser(this);
         this.getNotes().add(note);
     }
-
-    
 }

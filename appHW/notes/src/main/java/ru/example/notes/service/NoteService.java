@@ -1,7 +1,7 @@
 package ru.example.notes.service;
 
-import ru.example.notes.model.Note ;
-import ru.example.notes.model.NoteStatus;
+import ru.example.notes.models.Note ;
+import ru.example.notes.models.enums.NoteStatus;
 
 import java.util.List;
 

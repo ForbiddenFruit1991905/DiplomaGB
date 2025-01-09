@@ -1,4 +1,4 @@
-package ru.example.notes.model;
+package ru.example.notes.models.enums;
 
 public enum NoteStatus {
     NOT_STARTED,

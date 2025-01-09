@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.example.notes.model.Note ;
-import ru.example.notes.model.NoteStatus;
+import ru.example.notes.models.Note ;
+import ru.example.notes.models.enums.NoteStatus;
 import ru.example.notes.service.FileGateway;
 import ru.example.notes.service.NoteService ;
 

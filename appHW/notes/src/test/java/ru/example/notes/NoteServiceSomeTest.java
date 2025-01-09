@@ -5,15 +5,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.example.notes.model.Note;
+import ru.example.notes.models.Note;
 import ru.example.notes.repository.NoteRepository;
 import ru.example.notes.service.impl.NoteServiceImpl;
 
 import java.util.Optional;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static ru.example.notes.model.NoteStatus.IN_PROGRESS;
-import static ru.example.notes.model.NoteStatus.NOT_STARTED;
+import static ru.example.notes.models.enums.NoteStatus.IN_PROGRESS;
+import static ru.example.notes.models.enums.NoteStatus.NOT_STARTED;
 
 @ExtendWith(MockitoExtension.class)
 public class NoteServiceSomeTest {

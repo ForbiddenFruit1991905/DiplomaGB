@@ -3,7 +3,7 @@ package ru.example.notes;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import ru.example.notes.model.Note;
+import ru.example.notes.models.Note;
 import ru.example.notes.repository.NoteRepository;
 import ru.example.notes.service.impl.NoteServiceImpl;
 
@@ -11,8 +11,8 @@ import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static ru.example.notes.model.NoteStatus.IN_PROGRESS;
-import static ru.example.notes.model.NoteStatus.NOT_STARTED;
+import static ru.example.notes.models.enums.NoteStatus.IN_PROGRESS;
+import static ru.example.notes.models.enums.NoteStatus.NOT_STARTED;
 
 public class NoteServiceIntegrationTest {
 
