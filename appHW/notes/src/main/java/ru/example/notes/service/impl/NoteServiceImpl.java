@@ -1,5 +1,6 @@
 package ru.example.notes.service.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.example.notes.aspects.TrackUserAction ;
 import ru.example.notes.model.Note ;
@@ -10,14 +11,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 public class NoteServiceImpl implements NoteService {
 
     private final NoteRepository noteRepository;
 
-    public NoteServiceImpl(NoteRepository noteRepository) {
-        this.noteRepository = noteRepository;
-    }
+//    public NoteServiceImpl(NoteRepository noteRepository) {
+//        this.noteRepository = noteRepository;
+//    }
 
     @Override
     @TrackUserAction

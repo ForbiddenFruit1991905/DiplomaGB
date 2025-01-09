@@ -1,6 +1,7 @@
 package ru.example.notes.controller;
 
 import io.micrometer.core.instrument.Counter;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import ru.example.notes.service.NoteService ;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/notes")
 public class NoteController {
@@ -20,11 +22,11 @@ public class NoteController {
     private final FileGateway fileGateway;
     private final Counter counter;
 
-    public NoteController(NoteService noteService, FileGateway fileGateway, Counter counter) {
-        this.noteService = noteService;
-        this.fileGateway = fileGateway;
-        this.counter = counter;
-    }
+//    public NoteController(NoteService noteService, FileGateway fileGateway, Counter counter) {
+//        this.noteService = noteService;
+//        this.fileGateway = fileGateway;
+//        this.counter = counter;
+//    }
 
     @GetMapping
     public ResponseEntity<List<Note>> getAll(){
