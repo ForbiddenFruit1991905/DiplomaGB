@@ -1,6 +1,8 @@
 package ru.example.notes.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,13 +22,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 4096)
-    private String name;
+    @NotEmpty
+    @Column(nullable = false, length = 50)
+    private String firstName;
 
+    @NotEmpty
+    private String lastName;
 
-    @Column(nullable = false, unique = true, length = 4096)
+    @NotEmpty(message = "Адрес электронной почты не должен быть пустым")
+    @Email
+    @Column(nullable = false, unique = true, length = 250)
     private String email;
 
+    @NotEmpty(message = "Пароль не должен быть пустым, введите пароль")
     @Column(nullable = false)
     private String password;
 
