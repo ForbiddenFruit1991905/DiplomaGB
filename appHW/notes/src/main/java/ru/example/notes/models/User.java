@@ -47,7 +47,7 @@ public class User {
      */
     @OneToOne
     @JoinColumn(name = "role_id")
-    private Role roles;
+    private Role role;
 
     //TODO add into NoteController
     public void addNoteToUser(Note note) {

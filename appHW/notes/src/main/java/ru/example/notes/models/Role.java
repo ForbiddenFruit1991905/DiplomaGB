@@ -9,15 +9,15 @@ import ru.example.notes.models.enums.RoleName;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "roles")
+@Table(name = "ROLES")
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String roleNameStr;
+//    @Column(name = "role_name_str", nullable = false, unique = true)
+//    private String roleNameStr;
 
     /**
      * Отдельный столбец для хранения имени роли
@@ -29,7 +29,7 @@ public class Role {
     /**
      * Имя столбца, которое связывает таблицы users и roles
      */
-    @OneToOne(mappedBy = "roles")
+    @OneToOne(mappedBy = "role")
     @JoinColumn(name = "user_id")
     private User user;
 }

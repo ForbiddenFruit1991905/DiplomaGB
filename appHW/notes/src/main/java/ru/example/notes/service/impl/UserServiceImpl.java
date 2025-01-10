@@ -1,7 +1,6 @@
 package ru.example.notes.service.impl;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.example.notes.models.Role;
@@ -27,12 +26,15 @@ public class UserServiceImpl implements UserService {
     }
 
     //TODO запихнуть в контролер
-    @Autowired // Аннотация для автоматического вызова метода при инициализации (создание ADMIN-а)
+//    @Transactional
+//    @PostConstruct // Аннотация для автоматического вызова метода при инициализации (создание ADMIN-а)
+    @Override
     public void init() {
         Role adminRole = roleRepository.findByRoleName(RoleName.ADMIN);
-        if (adminRole == null) {
+        if (adminRole == checkAdminRoleExist()) {
             Role role = new Role();
             role.setRoleName(RoleName.ADMIN);
+//            role.setRoleNameStr("Администратор");
             roleRepository.save(role);
 
             User adminUser = new User();
@@ -40,7 +42,7 @@ public class UserServiceImpl implements UserService {
             adminUser.setLastName("Лихачёва");
             adminUser.setEmail("email@example.ru");
             adminUser.setPassword(passwordEncoder.encode("veryStrongPassword"));
-            adminUser.setRoles((Role) List.of(role));
+            adminUser.setRole((Role) List.of(role));
             userRepository.save(adminUser);
         }
     }
@@ -58,13 +60,19 @@ public class UserServiceImpl implements UserService {
             userRole = checkUserRoleExist();
         }
 
-        userRegistration.setRoles((Role) List.of(userRole));
+        userRegistration.setRole((Role) List.of(userRole));
         userRepository.save(userRegistration);
     }
 
     private Role checkUserRoleExist() {
         Role userRole = new Role();
         userRole.setRoleName(RoleName.USER);
+        return roleRepository.save(userRole);
+    }
+
+    private Role checkAdminRoleExist() {
+        Role userRole = new Role();
+        userRole.setRoleName(RoleName.ADMIN);
         return roleRepository.save(userRole);
     }
 
