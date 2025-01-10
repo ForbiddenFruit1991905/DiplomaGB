@@ -1,6 +1,7 @@
 package ru.example.notes.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.example.notes.models.Role;
@@ -25,30 +26,50 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email);
     }
 
+    //TODO запихнуть в контролер
+    @Autowired // Аннотация для автоматического вызова метода при инициализации (создание ADMIN-а)
+    public void init() {
+        Role adminRole = roleRepository.findByRoleName(RoleName.ADMIN);
+        if (adminRole == null) {
+            Role role = new Role();
+            role.setRoleName(RoleName.ADMIN);
+            roleRepository.save(role);
+
+            User adminUser = new User();
+            adminUser.setFirstName("Виктория");
+            adminUser.setLastName("Лихачёва");
+            adminUser.setEmail("email@example.ru");
+            adminUser.setPassword(passwordEncoder.encode("veryStrongPassword"));
+            adminUser.setRoles((Role) List.of(role));
+            userRepository.save(adminUser);
+        }
+    }
+
     @Override
     public void createUser(User user) {
         User userRegistration = new User();
         userRegistration.setFirstName(user.getFirstName());
         userRegistration.setLastName(user.getLastName());
         userRegistration.setEmail(user.getEmail());
-
         userRegistration.setPassword(passwordEncoder.encode(user.getPassword()));
-        Role role = roleRepository.findByRoleName(RoleName.valueOf("ADMIN"));
-        if (role == null) {
-            role = checkRoleExist();
+
+        Role userRole = roleRepository.findByRoleName(RoleName.USER);
+        if (userRole == null) {
+            userRole = checkUserRoleExist();
         }
-        userRegistration.setRoles((Role) List.of(role));
+
+        userRegistration.setRoles((Role) List.of(userRole));
         userRepository.save(userRegistration);
     }
 
-    private Role checkRoleExist() {
-        Role role = new Role();
-        role.setRoleName(RoleName.valueOf("ADMIN"));
-        return roleRepository.save(role);
+    private Role checkUserRoleExist() {
+        Role userRole = new Role();
+        userRole.setRoleName(RoleName.USER);
+        return roleRepository.save(userRole);
     }
 
     @Override
     public List<User> getUsersList() {
-        return List.of();
+        return userRepository.findAll();
     }
 }
