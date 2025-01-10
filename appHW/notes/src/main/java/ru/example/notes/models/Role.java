@@ -1,12 +1,11 @@
 package ru.example.notes.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.example.notes.models.enums.RoleName;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -17,8 +16,20 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "name", length = 50)
-    private RoleName name;
+    @Column(nullable = false, unique = true)
+    private String roleNameStr;
 
+    /**
+     * Отдельный столбец для хранения имени роли
+     */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role_name", length = 50)
+    private RoleName roleName;
+
+    /**
+     * Имя столбца, которое связывает таблицы users и roles
+     */
+    @OneToOne(mappedBy = "roles")
+    @JoinColumn(name = "user_id")
+    private User user;
 }

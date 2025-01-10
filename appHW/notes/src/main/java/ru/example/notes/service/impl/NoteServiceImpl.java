@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.example.notes.aspects.TrackUserAction ;
 import ru.example.notes.models.Note ;
+import ru.example.notes.models.User;
 import ru.example.notes.models.enums.NoteStatus;
 import ru.example.notes.repository.NoteRepository ;
 import ru.example.notes.service.NoteService ;
@@ -16,10 +17,6 @@ import java.util.Optional;
 public class NoteServiceImpl implements NoteService {
 
     private final NoteRepository noteRepository;
-
-//    public NoteServiceImpl(NoteRepository noteRepository) {
-//        this.noteRepository = noteRepository;
-//    }
 
     @Override
     @TrackUserAction
@@ -64,5 +61,10 @@ public class NoteServiceImpl implements NoteService {
     @TrackUserAction
     public void deleteNote(Long id) {
         noteRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Note> getNotesByUser(User user) {
+        return noteRepository.findByUser(user);
     }
 }

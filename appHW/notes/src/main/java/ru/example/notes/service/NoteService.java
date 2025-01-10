@@ -1,6 +1,7 @@
 package ru.example.notes.service;
 
 import ru.example.notes.models.Note ;
+import ru.example.notes.models.User;
 import ru.example.notes.models.enums.NoteStatus;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface NoteService {
     Note createNote(Note note);
     void deleteNote(Long id);
     List<Note> getTasksByStatus(NoteStatus status);
+    List<Note> getNotesByUser(User user);
 }

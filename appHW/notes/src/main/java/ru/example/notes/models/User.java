@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
@@ -34,6 +34,14 @@ public class User {
             fetch = FetchType.EAGER)
     private List<Note> notes = new ArrayList<>();
 
+    /**
+     * Имя столбца, которое связывает таблицы users и roles
+     */
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    private Role roles;
+
+    //TODO add into NoteController
     public void addNoteToUser(Note note) {
         note.setUser(this);
         this.getNotes().add(note);
