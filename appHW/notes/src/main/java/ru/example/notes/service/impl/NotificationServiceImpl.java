@@ -9,7 +9,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void notifyUser(User user) {
-        System.out.println("A new user has been created: " + user.getFirstName());
+        System.out.println("Новый пользователь создан: " + user.getFirstName());
     }
 
     @Override

@@ -19,6 +19,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private NotificationServiceImpl notificationServiceImpl;
 
     @Override
     public User findByEmail(String email) {
@@ -54,6 +55,8 @@ public class UserServiceImpl implements UserService {
         userRegistration.setLastName(user.getLastName());
         userRegistration.setEmail(user.getEmail());
         userRegistration.setPassword(passwordEncoder.encode(user.getPassword()));
+        
+        notificationServiceImpl.notifyUser(userRegistration);
 
         Role userRole = roleRepository.findByRoleName(RoleName.USER);
         if (userRole == null) {

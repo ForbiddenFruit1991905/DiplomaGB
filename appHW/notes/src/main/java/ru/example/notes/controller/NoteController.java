@@ -9,6 +9,7 @@ import ru.example.notes.models.Note ;
 import ru.example.notes.models.enums.NoteStatus;
 import ru.example.notes.service.FileGateway;
 import ru.example.notes.service.NoteService ;
+import ru.example.notes.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,15 +20,9 @@ import java.util.List;
 public class NoteController {
 
     private final NoteService noteService;
+    private UserService userService;
     private final FileGateway fileGateway;
     private final Counter counter;
-
-//    public NoteController(NoteService noteService, FileGateway fileGateway, Counter counter) {
-//        this.noteService = noteService;
-//        this.fileGateway = fileGateway;
-//        this.counter = counter;
-//    }
-
     @GetMapping
     public ResponseEntity<List<Note>> getAll(){
         return ResponseEntity.ok().body(noteService.getAllNotes());
