@@ -2,8 +2,6 @@ package ru.example.notes.controller;
 
 import io.micrometer.core.instrument.Counter;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
@@ -14,7 +12,6 @@ import ru.example.notes.models.enums.NoteStatus;
 import ru.example.notes.service.FileGateway;
 import ru.example.notes.service.NoteService ;
 import ru.example.notes.service.UserService;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,6 +23,7 @@ public class NoteController {
     private UserService userService;
     private final FileGateway fileGateway;
     private final Counter counter;
+    
     @GetMapping("/notes")
     public String getAll(Model model){
         model.addAttribute("notes",noteService.getAllNotes());
