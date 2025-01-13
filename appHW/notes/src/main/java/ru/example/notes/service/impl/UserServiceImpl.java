@@ -67,6 +67,11 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userRegistration);
     }
 
+    @Override
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
+
     private Role checkUserRoleExist() {
         Role userRole = new Role();
         userRole.setRoleName(RoleName.USER);

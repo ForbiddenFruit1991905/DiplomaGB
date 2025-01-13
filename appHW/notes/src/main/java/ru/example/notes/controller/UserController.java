@@ -1,26 +1,69 @@
 package ru.example.notes.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.example.notes.repository.RoleRepository;
-import ru.example.notes.repository.UserRepository;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import ru.example.notes.models.User;
 import ru.example.notes.service.impl.UserServiceImpl;
+
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/users")
 public class UserController {
     
     private UserServiceImpl userServiceImpl;
 
-    @PostMapping("/init")
-    public ResponseEntity<String> init() {
-        userServiceImpl.init();
-        return ResponseEntity.ok("Пользователь ADMIN успешно создан.");
+    @GetMapping("/")
+    public String home() {
+        return "home";
     }
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
+    }
+
+    @GetMapping("/registration")
+    public String showRegistrationForm(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "registration";
+    }
+
+    @PostMapping("/registration/save")
+    public String registration(@Valid @ModelAttribute("user") User user,
+                               BindingResult result,
+                               Model model) {
+        User registeredUser = userServiceImpl.findByEmail(user.getEmail());
+        if (registeredUser != null) {
+            result.rejectValue("email", null,
+                    "По данному адресу электронной почты уже зарегистрирована учетная запись.");
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            return "registration";
+        }
+        userServiceImpl.saveUser(user);
+        return "redirect:/register?success";
+    }
+
+    @GetMapping("/users")
+    public String listOfRegisteredUsers(Model model) {
+        List<User> users = userServiceImpl.getUsersList();
+        model.addAttribute("users", users);
+        return "users";
+    }
+
+
+    @PostMapping("/init")
+    public String init(Model model) {
+        userServiceImpl.init();
+        model.addAttribute("message", "Пользователь ADMIN успешно создан.");
+        return "initSuccess";
+    }
+    
 }
