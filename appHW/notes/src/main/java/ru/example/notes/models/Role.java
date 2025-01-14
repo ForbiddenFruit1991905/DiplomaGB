@@ -16,9 +16,6 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column(name = "role_name_str", nullable = false, unique = true)
-//    private String roleNameStr;
-
     /**
      * Отдельный столбец для хранения имени роли
      */

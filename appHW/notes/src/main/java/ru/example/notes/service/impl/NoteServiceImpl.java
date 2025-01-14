@@ -56,10 +56,11 @@ public class NoteServiceImpl implements NoteService {
         note.setCreatedDate(LocalDateTime.now());
         return noteRepository.save(note);
     }
-
+ 
     @Override
     @TrackUserAction
     public void deleteNote(Long id) {
+
         noteRepository.deleteById(id);
     }
 

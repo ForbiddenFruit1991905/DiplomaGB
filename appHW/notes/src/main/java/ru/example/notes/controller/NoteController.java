@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.example.notes.models.Note ;
+import ru.example.notes.models.Planner;
 import ru.example.notes.models.User;
 import ru.example.notes.models.enums.NoteStatus;
 import ru.example.notes.service.FileGateway;
@@ -25,9 +26,24 @@ public class NoteController {
     private final Counter counter;
     
     @GetMapping("/notes")
-    public String getAll(Model model){
-        model.addAttribute("notes",noteService.getAllNotes());
+    public String getAllNotesByUser(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(authentication.getName());
+        List<Note> notes = noteService.getNotesByUser(user);
+        model.addAttribute("notes",notes);
         return "notes";
+    }
+
+    @PostMapping("/createPlanner")
+    public String createPlanner(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(authentication.getName());
+        Planner planner = new Planner();
+        //TODO Установить связь между пользователем и планером
+        user.setPlannerToUser(planner);
+        userService.saveUser(user); // Сохраняем пользователя с новым планером
+
+        return "plannerCreatedSuccess"; // TODO Возможно, потребуется создать HTML страницу для отображения успешного создания планера
     }
 
     @PostMapping("/createNote")
@@ -80,6 +96,7 @@ public class NoteController {
         if (note == null) {
             return "notFoundView";
         }
+//        Note note = noteService.getNoteById(id);
         noteService.updateNote(id, note);
         return "updateNoteView";
     }

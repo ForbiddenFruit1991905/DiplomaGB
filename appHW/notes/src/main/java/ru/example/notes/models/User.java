@@ -54,4 +54,9 @@ public class User {
         note.setUser(this);
         this.getNotes().add(note);
     }
+
+    public void setPlannerToUser(Planner planner) {
+        planner.setOwner(this);
+        //TODO
+    }
 }
