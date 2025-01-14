@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.example.notes.models.User;
+import ru.example.notes.service.NotificationService;
+import ru.example.notes.service.impl.NotificationServiceImpl;
 import ru.example.notes.service.impl.UserServiceImpl;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
 public class UserController {
     
     private UserServiceImpl userServiceImpl;
+    private NotificationServiceImpl notificationService;
 
     @GetMapping("/")
     public String home() {
@@ -48,6 +51,8 @@ public class UserController {
             return "registration";
         }
         userServiceImpl.saveUser(user);
+        // Отправка уведомления о выполненной регистрации
+        notificationService.sendNotification("Регистрация выполнена");
         return "redirect:/register?success";
     }
 
