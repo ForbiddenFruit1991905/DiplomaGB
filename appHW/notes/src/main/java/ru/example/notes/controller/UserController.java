@@ -56,6 +56,7 @@ public class UserController {
         return "redirect:/register?success";
     }
 
+    //TODO присвоить возможность просмотра только через роль админа
     @GetMapping("/users")
     public String listOfRegisteredUsers(Model model) {
         List<User> users = userServiceImpl.getUsersList();
