@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +48,13 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    /**
+     * Имя столбца, которое связывает таблицы users и planner
+     */
+    @OneToOne
+    @JoinColumn(name = "owner")
+    private Planner planner;
+
     //TODO add into NoteController
     public void addNoteToUser(Note note) {
         note.setUser(this);
@@ -57,6 +63,6 @@ public class User {
 
     public void setPlannerToUser(Planner planner) {
         planner.setOwner(this);
-        //TODO
+        this.setPlanner(planner);
     }
 }
