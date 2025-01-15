@@ -9,7 +9,6 @@ import ru.example.notes.models.enums.RoleName;
 import ru.example.notes.repository.RoleRepository;
 import ru.example.notes.repository.UserRepository;
 import ru.example.notes.service.UserService;
-
 import java.util.List;
 
 @AllArgsConstructor
@@ -26,16 +25,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email);
     }
 
-    //TODO запихнуть в контролер
-//    @Transactional
-//    @PostConstruct // Аннотация для автоматического вызова метода при инициализации (создание ADMIN-а)
     @Override
     public void init() {
         Role adminRole = roleRepository.findByRoleName(RoleName.ADMIN);
         if (adminRole == checkAdminRoleExist()) {
             Role role = new Role();
             role.setRoleName(RoleName.ADMIN);
-//            role.setRoleNameStr("Администратор");
             roleRepository.save(role);
 
             User adminUser = new User();
@@ -56,7 +51,7 @@ public class UserServiceImpl implements UserService {
         userRegistration.setEmail(user.getEmail());
         userRegistration.setPassword(passwordEncoder.encode(user.getPassword()));
         
-        notificationServiceImpl.notifyUser(userRegistration);
+//        notificationServiceImpl.notifyUser(userRegistration);
 
         Role userRole = roleRepository.findByRoleName(RoleName.USER);
         if (userRole == null) {
@@ -65,6 +60,7 @@ public class UserServiceImpl implements UserService {
 
         userRegistration.setRole((Role) List.of(userRole));
         userRepository.save(userRegistration);
+        notificationServiceImpl.notifyUser(userRegistration);
     }
 
     @Override

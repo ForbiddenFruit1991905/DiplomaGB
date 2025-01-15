@@ -50,5 +50,4 @@ public class SecurityConfiguration {
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
-    
 }

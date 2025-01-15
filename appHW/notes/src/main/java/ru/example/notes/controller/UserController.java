@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.example.notes.models.User;
 import ru.example.notes.service.impl.NotificationServiceImpl;
 import ru.example.notes.service.impl.UserServiceImpl;
-
 import java.util.List;
 
 @AllArgsConstructor
@@ -20,7 +19,7 @@ public class UserController {
 
     @GetMapping("/")
     public String home() {
-        return "home";
+        return "registration";
     }
 
     @GetMapping("/login")
@@ -31,6 +30,7 @@ public class UserController {
     @GetMapping("/registration")
     public String showRegistrationForm(Model model) {
         User user = new User();
+//        userServiceImpl.createUser(user);
         model.addAttribute("user", user);
         //TODO возможно объединить форму регистрации и login а одной странице index(welcome page)!!!
         return "registration";
@@ -49,6 +49,7 @@ public class UserController {
             model.addAttribute("user", user);
             return "registration";
         }
+        userServiceImpl.createUser(user); // Вызов метода для создания нового пользователя
         userServiceImpl.saveUser(user);
         // Отправка уведомления о выполненной регистрации
         notificationService.sendNotification("Регистрация выполнена");

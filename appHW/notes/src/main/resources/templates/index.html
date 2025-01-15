@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация пользователя</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .left-side {
+            width: 50%;
+            text-align: center;
+            padding: 20px;
+        }
+        .right-side {
+            width: 50%;
+            background-color: #E6E6FA;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+    <body>
+        <div th:fragment="left-side">
+            <a href="#" th:href="@{/}">
+                <img src="logo.png" alt="Logo" width="40">
+            </a>
+            <h2>Регистрация</h2>
+        <!--    <form action="/registration/save" method="post">-->
+            <form th:action="@{/index}" method="post" th:object="${user}">
+                <input type="text" th:field="*{firstName}" placeholder="Имя пользователя" required><br><br>
+                <input type="text" th:field="*{lastName}" placeholder="Фамилия пользователя" required><br><br>
+                <input type="email" th:field="*{email}" placeholder="Email" required><br><br>
+                <input type="password" th:field="*{password}" placeholder="Пароль" required><br><br>
+                <button type="submit">Войти</button>
+                <button type="submit">Добавить пользователя</button>
+            </form>
+        </div>
+        <div th:fragment="right-side">
+            <h2>Добро пожаловать на наш сайт</h2>
+            <p style="font-weight: bold;">Пиши о себе, мечтай, планируй — дневник поможет тебе достичь целей!</p>
+        </div>
+    </body>
+</html>
