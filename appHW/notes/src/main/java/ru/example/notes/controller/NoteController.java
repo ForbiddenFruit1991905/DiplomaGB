@@ -24,6 +24,11 @@ public class NoteController {
     private UserService userService;
     private final FileGateway fileGateway;
     private final Counter counter;
+
+    @GetMapping("/home")
+    String home() {
+        return "home";
+    }
     
     @GetMapping("/notes")
     public String getAllNotesByUser(Model model){
@@ -31,19 +36,19 @@ public class NoteController {
         User user = userService.findByEmail(authentication.getName());
         List<Note> notes = noteService.getNotesByUser(user);
         model.addAttribute("notes",notes);
-        return "notes";
+        return "notesList";
     }
 
+    // TODO Возможно, потребуется создать HTML страницу для отображения успешного создания планера
     @PostMapping("/createPlanner")
     public String createPlanner(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(authentication.getName());
         Planner planner = new Planner();
-        //TODO Установить связь между пользователем и планером
         user.setPlannerToUser(planner);
         userService.saveUser(user); // Сохраняем пользователя с новым планером
 
-        return "plannerCreatedSuccess"; // TODO Возможно, потребуется создать HTML страницу для отображения успешного создания планера
+        return "plannerCreatedSuccess";
     }
 
     @PostMapping("/createNote")
@@ -98,7 +103,7 @@ public class NoteController {
         }
 //        Note note = noteService.getNoteById(id);
         noteService.updateNote(id, note);
-        return "updateNoteView";
+        return "redirect:/updateNoteView";
     }
 
     /**
@@ -112,7 +117,7 @@ public class NoteController {
         noteService.deleteNote(id);
         List<Note> notes = noteService.getAllNotes();
         model.addAttribute("notes", notes);
-        return "redirect:/getNoteView";
+        return "redirect:/deletedNotesView";
     }
 
     /**

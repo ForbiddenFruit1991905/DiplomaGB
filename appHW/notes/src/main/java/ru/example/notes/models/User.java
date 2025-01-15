@@ -54,8 +54,7 @@ public class User {
     @OneToOne
     @JoinColumn(name = "owner")
     private Planner planner;
-
-    //TODO add into NoteController
+    
     public void addNoteToUser(Note note) {
         note.setUser(this);
         this.getNotes().add(note);

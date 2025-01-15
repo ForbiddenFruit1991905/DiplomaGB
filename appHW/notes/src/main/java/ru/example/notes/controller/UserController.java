@@ -2,12 +2,10 @@ package ru.example.notes.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.example.notes.models.User;
-import ru.example.notes.service.NotificationService;
 import ru.example.notes.service.impl.NotificationServiceImpl;
 import ru.example.notes.service.impl.UserServiceImpl;
 
@@ -34,6 +32,7 @@ public class UserController {
     public String showRegistrationForm(Model model) {
         User user = new User();
         model.addAttribute("user", user);
+        //TODO возможно объединить форму регистрации и login а одной странице index(welcome page)!!!
         return "registration";
     }
 
@@ -53,7 +52,7 @@ public class UserController {
         userServiceImpl.saveUser(user);
         // Отправка уведомления о выполненной регистрации
         notificationService.sendNotification("Регистрация выполнена");
-        return "redirect:/register?success";
+        return "redirect:/registration?success";
     }
 
     //TODO присвоить возможность просмотра только через роль админа
@@ -64,12 +63,10 @@ public class UserController {
         return "users";
     }
 
-
     @PostMapping("/init")
     public String init(Model model) {
         userServiceImpl.init();
         model.addAttribute("message", "Пользователь ADMIN успешно создан.");
         return "initSuccess";
     }
-    
 }
