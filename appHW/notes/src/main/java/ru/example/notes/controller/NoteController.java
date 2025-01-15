@@ -48,7 +48,7 @@ public class NoteController {
         user.setPlannerToUser(planner);
         userService.saveUser(user); // Сохраняем пользователя с новым планером
 
-        return "plannerCreatedSuccess";
+        return "createPlanner";
     }
 
     @PostMapping("/createNote")
@@ -101,8 +101,12 @@ public class NoteController {
         if (note == null) {
             return "notFoundView";
         }
-//        Note note = noteService.getNoteById(id);
+//
+        noteService.getNoteById(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        userService.findByEmail(authentication.getName());
         noteService.updateNote(id, note);
+        model.addAttribute("note", note);
         return "redirect:/updateNoteView";
     }
 
@@ -114,10 +118,14 @@ public class NoteController {
      */
     @DeleteMapping("/{id}")
     public String deleteNote(@PathVariable("id") Long id, Model model) {
+        Note note = noteService.getNoteById(id);
+        User user = note.getUser();
+        user.getNotes().remove(note);
+        userService.saveUser(user);
         noteService.deleteNote(id);
         List<Note> notes = noteService.getAllNotes();
         model.addAttribute("notes", notes);
-        return "redirect:/deletedNotesView";
+        return "redirect:/notesView";
     }
 
     /**

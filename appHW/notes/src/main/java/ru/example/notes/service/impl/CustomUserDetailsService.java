@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import ru.example.notes.models.Role;
 import ru.example.notes.models.User;
 import ru.example.notes.repository.UserRepository;
-
 import java.util.Collection;
 import java.util.stream.Collectors;
 
