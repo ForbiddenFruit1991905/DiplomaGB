@@ -109,7 +109,7 @@ public class NoteController {
         userService.findByEmail(authentication.getName());
         noteService.updateNote(id, note);
         model.addAttribute("note", note);
-        return "redirect:/updateNoteView";
+        return "redirect:/noteView";
     }
 
     /**
@@ -127,7 +127,7 @@ public class NoteController {
         noteService.deleteNote(id);
         List<Note> notes = noteService.getAllNotes();
         model.addAttribute("notes", notes);
-        return "redirect:/notesView";
+        return "redirect:/noteView";
     }
 
     /**
