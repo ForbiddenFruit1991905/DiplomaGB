@@ -2,6 +2,8 @@ package ru.example.notes.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -11,20 +13,28 @@ import ru.example.notes.service.impl.UserServiceImpl;
 import java.util.List;
 
 @AllArgsConstructor
-@RestController
+@Controller
 public class UserController {
     
     private UserServiceImpl userServiceImpl;
     private NotificationServiceImpl notificationService;
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/")
     public String home() {
         return "home";
     }
 
-    @GetMapping("/login")
-    public String loginForm() {
-        return "login";
+    @PostMapping("/login")
+    public String login(@RequestParam String email, @RequestParam String password, Model model) {
+        User user = userServiceImpl.findByEmail(email);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            model.addAttribute("user", user);
+            return "redirect:/home";
+        } else {
+            model.addAttribute("error", "Неверный email или пароль");
+            return "login";
+        }
     }
 
     @GetMapping("/registration")

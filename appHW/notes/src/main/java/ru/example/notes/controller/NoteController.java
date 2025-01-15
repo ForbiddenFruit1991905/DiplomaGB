@@ -4,6 +4,7 @@ import io.micrometer.core.instrument.Counter;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.example.notes.models.Note ;
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
-@RestController
+@Controller
 public class NoteController {
 
     private final NoteService noteService;
