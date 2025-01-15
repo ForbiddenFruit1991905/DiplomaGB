@@ -81,6 +81,8 @@ public class NoteController {
         Note noteById;
         try {
             noteById = noteService.getNoteById(id);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            userService.findByEmail(authentication.getName());
             model.addAttribute("note", noteById);
         } catch (RuntimeException e) {
             model.addAttribute("note", new Note());
@@ -137,6 +139,8 @@ public class NoteController {
     @GetMapping("/status/{status}")
     public String getTasksByStatus(@PathVariable NoteStatus status, Model model) {
         List<Note> notesByStatus = noteService.getTasksByStatus(status);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        userService.findByEmail(authentication.getName());
         model.addAttribute("notes", notesByStatus);
         return "statusNotesView";
     }
