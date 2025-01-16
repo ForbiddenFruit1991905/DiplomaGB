@@ -6,6 +6,7 @@ import ru.example.notes.models.Planner;
 import ru.example.notes.repository.PlannerRepository;
 import ru.example.notes.service.PlannerService;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -14,23 +15,23 @@ public class PlannerServiceImpl implements PlannerService {
     private final PlannerRepository plannerRepository;
 
     @Override
-    public Planner createNote(Planner planner) {
+    public Planner createPlanner(Planner planner) {
         return plannerRepository.save(planner);
     }
 
     @Override
-    public List<Planner> getAllNotes() {
+    public List<Planner> getAllPlanners() {
         return plannerRepository.findAll();
     }
 
     @Override
-    public Planner getNoteById(Long id) {
+    public Planner getPlannerById(UUID id) {
         return plannerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException((Throwable) null));
     }
 
     @Override
-    public Planner updateNote(Planner planner) {
-        Planner plannerById = getNoteById(planner.getId());
+    public Planner updatePlanner(Planner planner) {
+        Planner plannerById = getPlannerById(planner.getId());
         plannerById.setDescription(planner.getDescription());
         plannerById.setTitle(planner.getTitle());
         plannerById.setNotes(planner.getNotes());
@@ -39,8 +40,8 @@ public class PlannerServiceImpl implements PlannerService {
     }
 
     @Override
-    public void deleteNote(Long id) {
-        Planner plannerById = getNoteById(id);
+    public void deletePlanner(UUID id) {
+        Planner plannerById = getPlannerById(id);
         plannerRepository.delete(plannerById);
     }
 

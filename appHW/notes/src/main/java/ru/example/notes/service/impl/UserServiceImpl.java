@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void init() {
         Role adminRole = roleRepository.findByRoleName(RoleName.ADMIN);
-        if (adminRole == checkAdminRoleExist()) {
+        if (adminRole == null) {
             Role role = new Role();
             role.setRoleName(RoleName.ADMIN);
             roleRepository.save(role);
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
             adminUser.setLastName("Лихачёва");
             adminUser.setEmail("email@example.ru");
             adminUser.setPassword(passwordEncoder.encode("veryStrongPassword"));
-            adminUser.setRole((Role) List.of(role));
+            adminUser.setRole(role);
             userRepository.save(adminUser);
         }
     }
@@ -50,15 +50,16 @@ public class UserServiceImpl implements UserService {
         userRegistration.setLastName(user.getLastName());
         userRegistration.setEmail(user.getEmail());
         userRegistration.setPassword(passwordEncoder.encode(user.getPassword()));
-        
-//        notificationServiceImpl.notifyUser(userRegistration);
 
         Role userRole = roleRepository.findByRoleName(RoleName.USER);
+
         if (userRole == null) {
-            userRole = checkUserRoleExist();
+            userRole = new Role();
+            userRole.setRoleName(RoleName.USER);
+            roleRepository.save(userRole);
         }
 
-        userRegistration.setRole((Role) List.of(userRole));
+        userRegistration.setRole(userRole);
         userRepository.save(userRegistration);
         notificationServiceImpl.notifyUser(userRegistration);
     }
@@ -66,18 +67,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
         userRepository.save(user);
-    }
-
-    private Role checkUserRoleExist() {
-        Role userRole = new Role();
-        userRole.setRoleName(RoleName.USER);
-        return roleRepository.save(userRole);
-    }
-
-    private Role checkAdminRoleExist() {
-        Role userRole = new Role();
-        userRole.setRoleName(RoleName.ADMIN);
-        return roleRepository.save(userRole);
     }
 
     @Override

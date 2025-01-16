@@ -5,13 +5,14 @@ import ru.example.notes.models.User;
 import ru.example.notes.models.enums.NoteStatus;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface NoteService {
     List<Note> getAllNotes();
-    Note getNoteById(Long id);
-    Note updateNote(Long id, Note noteDetails);
+    Note getNoteById(UUID id);
+    Note updateNote(UUID id, Note noteDetails);
     Note createNote(Note note);
-    void deleteNote(Long id);
+    void deleteNote(UUID id);
     List<Note> getTasksByStatus(NoteStatus status);
     List<Note> getNotesByUser(User user);
 }

@@ -11,6 +11,7 @@ import ru.example.notes.models.User;
 import ru.example.notes.service.impl.NotificationServiceImpl;
 import ru.example.notes.service.impl.UserServiceImpl;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Controller
@@ -26,13 +27,21 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String email, @RequestParam String password, Model model) {
-        User user = userServiceImpl.findByEmail(email);
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            model.addAttribute("user", user);
-            return "redirect:/home";
-        } else {
-            model.addAttribute("error", "Неверный email или пароль");
+    public String login(@ModelAttribute("user") User u, Model model) {
+        try {
+//            UUID userId = UUID.fromString(String.valueOf(u.getId()));
+            User user = userServiceImpl.findByEmail(u.getEmail());
+            if (user != null && passwordEncoder.matches(u.getPassword(), user.getPassword())) {
+                UUID randomUUID = UUID.randomUUID();
+                user.setId(randomUUID);
+                model.addAttribute("user", user);
+                return "redirect:/home";
+            } else {
+                model.addAttribute("error", "Неверный email или пароль");
+                return "login";
+            }
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", "Неверный формат UUID");
             return "login";
         }
     }

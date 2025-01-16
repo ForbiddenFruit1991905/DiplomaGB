@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import ru.example.notes.models.enums.RoleName;
 
+import java.util.UUID;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -14,7 +16,7 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     /**
      * Отдельный столбец для хранения имени роли

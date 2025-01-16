@@ -6,6 +6,7 @@ import lombok.Data;
 import ru.example.notes.models.enums.NoteStatus;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +16,7 @@ public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     @Column(name = " header", nullable = false)
     private String header;
