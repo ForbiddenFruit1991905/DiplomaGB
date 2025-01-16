@@ -29,11 +29,11 @@ public class UserController {
     @PostMapping("/login")
     public String login(@ModelAttribute("user") User u, Model model) {
         try {
-//            UUID userId = UUID.fromString(String.valueOf(u.getId()));
+            UUID userId = UUID.fromString(String.valueOf(u.getId()));
             User user = userServiceImpl.findByEmail(u.getEmail());
             if (user != null && passwordEncoder.matches(u.getPassword(), user.getPassword())) {
-                UUID randomUUID = UUID.randomUUID();
-                user.setId(randomUUID);
+//                UUID randomUUID = UUID.randomUUID();
+                user.setId(userId);
                 model.addAttribute("user", user);
                 return "redirect:/home";
             } else {

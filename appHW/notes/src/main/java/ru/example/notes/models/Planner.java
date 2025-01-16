@@ -31,6 +31,6 @@ public class Planner {
     private List<Note> notes;
 
     @OneToOne
-    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
     private User owner;
 }

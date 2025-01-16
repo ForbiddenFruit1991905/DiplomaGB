@@ -45,14 +45,14 @@ public class User {
      * Имя столбца, которое связывает таблицы users и roles
      */
     @OneToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    @JoinColumn(name = "role_id", referencedColumnName = "role_name", nullable = false)
     private Role role;
 
     /**
      * Имя столбца, которое связывает таблицы users и planner
      */
     @OneToOne
-    @JoinColumn(name = "owner", referencedColumnName = "role_name")
+    @JoinColumn(name = "owner", referencedColumnName = "id")
     private Planner planner;
     
     public void addNoteToUser(Note note) {

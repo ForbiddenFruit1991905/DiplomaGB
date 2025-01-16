@@ -3,7 +3,6 @@ package ru.example.notes.models;
 import jakarta.persistence.*;
 import lombok.*;
 import ru.example.notes.models.enums.RoleName;
-
 import java.util.UUID;
 
 @Setter
@@ -13,6 +12,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "ROLES")
 public class Role {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private UUID id;
 
     /**
      * Отдельный столбец для хранения имени роли
