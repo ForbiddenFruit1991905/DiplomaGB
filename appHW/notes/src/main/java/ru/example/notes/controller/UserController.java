@@ -29,7 +29,7 @@ public class UserController {
     @PostMapping("/login")
     public String login(@ModelAttribute("user") User u, Model model) {
         try {
-            UUID userId = UUID.fromString(String.valueOf(u.getId()));
+            UUID userId = u.getId();
             User user = userServiceImpl.findByEmail(u.getEmail());
             if (user != null && passwordEncoder.matches(u.getPassword(), user.getPassword())) {
 //                UUID randomUUID = UUID.randomUUID();
@@ -45,6 +45,34 @@ public class UserController {
             return "login";
         }
     }
+
+//    @PostMapping("/login")
+//    public String login(@ModelAttribute("user") User u, Model model) {
+//        try {
+//            UUID userId = UUID.fromString(String.valueOf(u.getId())); // Попытка преобразовать строку в UUID
+//            User user = userServiceImpl.findByEmail(u.getEmail());
+//            if (user != null && passwordEncoder.matches(u.getPassword(), user.getPassword())) {
+//                user.setId(userId);
+//                model.addAttribute("user", user);
+//                return "redirect:/home";
+//            } else {
+//                model.addAttribute("error", "Неверный email или пароль");
+//                return "login";
+//            }
+//        } catch (IllegalArgumentException | NullPointerException e) { // Перехватываем исключение типов IllegalArgumentException и NullPointerException
+//            UUID randomUUID = UUID.randomUUID(); // Генерируем случайный UUID
+//            u.setId(randomUUID); // Присваиваем случайный UUID объекту User
+//            User user = userServiceImpl.findByEmail(u.getEmail());
+//            if (user != null && passwordEncoder.matches(u.getPassword(), user.getPassword())) {
+//                user.setId(randomUUID);
+//                model.addAttribute("user", user);
+//                return "redirect:/home";
+//            } else {
+//                model.addAttribute("error", "Неверный email или пароль");
+//                return "login";
+//            }
+//        }
+//    }
 
     @GetMapping("/registration")
     public String showRegistrationForm(Model model) {
