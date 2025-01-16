@@ -16,7 +16,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "users")
 public class User {
-//    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,14 +45,14 @@ public class User {
      * Имя столбца, которое связывает таблицы users и roles
      */
     @OneToOne
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
     /**
      * Имя столбца, которое связывает таблицы users и planner
      */
     @OneToOne
-    @JoinColumn(name = "owner")
+    @JoinColumn(name = "owner", referencedColumnName = "role_name")
     private Planner planner;
     
     public void addNoteToUser(Note note) {

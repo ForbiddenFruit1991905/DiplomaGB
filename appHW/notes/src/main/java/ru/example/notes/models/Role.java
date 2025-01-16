@@ -14,10 +14,6 @@ import java.util.UUID;
 @Table(name = "ROLES")
 public class Role {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
-
     /**
      * Отдельный столбец для хранения имени роли
      */
@@ -28,7 +24,9 @@ public class Role {
     /**
      * Имя столбца, которое связывает таблицы users и roles
      */
+
     @OneToOne(mappedBy = "role")
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
 }

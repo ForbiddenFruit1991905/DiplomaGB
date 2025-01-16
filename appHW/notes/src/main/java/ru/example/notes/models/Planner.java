@@ -30,7 +30,7 @@ public class Planner {
             fetch = FetchType.EAGER)
     private List<Note> notes;
 
-    @OneToOne(mappedBy = "planner")
-    @JoinColumn(name = "owner_id")
+    @OneToOne
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;
 }
