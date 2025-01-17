@@ -13,6 +13,7 @@ import ru.example.notes.models.User;
 import ru.example.notes.models.enums.NoteStatus;
 import ru.example.notes.service.FileGateway;
 import ru.example.notes.service.NoteService ;
+import ru.example.notes.service.PlannerService;
 import ru.example.notes.service.UserService;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,6 +27,7 @@ public class NoteController {
     private UserService userService;
     private final FileGateway fileGateway;
     private final Counter counter;
+    private PlannerService plannerService;
 
     @GetMapping("/home")
     String home() {
@@ -50,6 +52,7 @@ public class NoteController {
         Planner planner = new Planner();
         user.setPlannerToUser(planner);
         userService.saveUser(user); // Сохраняем пользователя с новым планером
+        plannerService.createPlanner(planner);
 
         return "createPlanner";
     }
