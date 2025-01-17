@@ -3,6 +3,8 @@ package ru.example.notes.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,39 +17,53 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
+
     @Autowired
     private UserDetailsService userDetailsService;
 
     @Bean
-    public static PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/registration/**").permitAll()
-                                .requestMatchers("/index").permitAll()
-                                .requestMatchers("/users", "/**").hasAuthority("ADMIN")
-                ).formLogin(
-                        form -> form
-                                .loginPage("/login")
-                                .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/home")
-                                .permitAll()
-                ).logout(
-                        logout -> logout
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                                .permitAll()
-                );
-        return http.build();
+//    @Bean
+//    public DaoAuthenticationProvider authenticationProvider() {
+//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+//        authProvider.setUserDetailsService(userDetailsService);
+//        authProvider.setPasswordEncoder(passwordEncoder());
+//        return authProvider;
+//    }
+
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity builder) throws Exception {
+        builder
+                .authorizeHttpRequests((authorize) ->
+                        authorize
+                                .requestMatchers("/registration/**").permitAll()
+                                .requestMatchers("/index").permitAll()
+                                .requestMatchers("/users", "/**").hasAuthority("ADMIN")
+                )
+                .formLogin(
+                        form ->
+                                form
+                                        .loginPage("/login")
+                                        .loginProcessingUrl("/login")
+                                        .defaultSuccessUrl("/home")
+                                        .permitAll()
+                )
+                .logout(
+                        logout ->
+                                logout
+                                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                        .permitAll()
+                );
+        return builder.build();
     }
+
+
 }
+
