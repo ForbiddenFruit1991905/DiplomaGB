@@ -45,11 +45,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(User user) {
-        User userRegistration = new User();
-        userRegistration.setFirstName(user.getFirstName());
-        userRegistration.setLastName(user.getLastName());
-        userRegistration.setEmail(user.getEmail());
-        userRegistration.setPassword(passwordEncoder.encode(user.getPassword()));
 
         Role userRole = roleRepository.findByRoleName(RoleName.USER);
 
@@ -58,6 +53,12 @@ public class UserServiceImpl implements UserService {
             userRole.setRoleName(RoleName.USER);
             roleRepository.save(userRole);
         }
+
+        User userRegistration = new User();
+        userRegistration.setFirstName(user.getFirstName());
+        userRegistration.setLastName(user.getLastName());
+        userRegistration.setEmail(user.getEmail());
+        userRegistration.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRegistration.setRole(userRole);
         userRepository.save(userRegistration);
@@ -72,5 +73,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getUsersList() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public boolean authenticateUser(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            return true;
+        }
+        return false; 
     }
 }
