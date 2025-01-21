@@ -7,6 +7,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface PlannerRepository extends JpaRepository<Planner, Long> {
+public interface PlannerRepository extends JpaRepository<Planner, UUID> {
     Optional<Planner> findById(UUID id);
 }

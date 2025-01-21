@@ -14,6 +14,7 @@ public class Planner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @Column(name = "title", nullable = false, length = 50)
@@ -26,7 +27,7 @@ public class Planner {
             fetch = FetchType.EAGER)
     private List<Note> notes;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
     private User owner;
 }

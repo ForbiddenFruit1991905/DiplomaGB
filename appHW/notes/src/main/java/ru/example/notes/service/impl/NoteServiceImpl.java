@@ -36,7 +36,7 @@ public class NoteServiceImpl implements NoteService {
     public Note updateNote(UUID id, Note noteDetails) {
         Optional<Note> optionalNote = noteRepository.findById(id);
         if (optionalNote.isPresent()){
-            Note note = (Note) optionalNote.get();
+            Note note = optionalNote.get();
             note.setHeader(noteDetails.getHeader());
             note.setText(noteDetails.getText());
             note.setStatus(noteDetails.getStatus());

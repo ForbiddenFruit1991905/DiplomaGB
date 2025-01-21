@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +22,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @NotEmpty
@@ -44,15 +48,16 @@ public class User {
     /**
      * Имя столбца, которое связывает таблицы users и roles
      */
-    @OneToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "role_name", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
 
     /**
      * Имя столбца, которое связывает таблицы users и planner
      */
-    @OneToOne
-    @JoinColumn(name = "owner", referencedColumnName = "id")
+//    @OneToOne
+//    @JoinColumn(name = "owner", referencedColumnName = "id")
+    @OneToOne(mappedBy = "owner")
     private Planner planner;
     
     public void addNoteToUser(Note note) {

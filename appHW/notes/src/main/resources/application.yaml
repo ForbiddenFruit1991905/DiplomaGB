@@ -6,17 +6,34 @@
 
 server:
   port: 8080
-
 spring:
-  application:
-    name: notes
-  main:
-    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/MyDBforDiploma
+    username: root
+    password: "!ForbiddenFruit19911905"
   jpa:
-    generate-ddl: false
+    generate-ddl: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     open-in-view: false
+
+
+#spring:
+#  application:
+#    name: notes
+#  main:
+#    allow-bean-definition-overriding: true
+#  jpa:
+#    generate-ddl: false
+#    hibernate:
+#      ddl-auto: none
+#    open-in-view: false
+
+
+
+
+
 
 
 

@@ -26,96 +26,54 @@ public class UserController {
         return "home";
     }
 
-    @PostMapping("/login/{id}")
-    public String login(@ModelAttribute("user") User user, @PathVariable("id") String id, Model model) {
-        try {
-            UUID.fromString(id.trim());
-            user.setId(UUID.randomUUID());
-        } catch (IllegalArgumentException e) {
-            // Обработка случая некорректного UUID
-            model.addAttribute("error", "Некорректный идентификатор пользователя");
-            return "error";
-        }
+//    @PostMapping("/login/{id}")
+//    public String loginUser(@ModelAttribute("user") User user, @PathVariable("id") String id, Model model) {
+//        try {
+//            UUID.fromString(id.trim());
+//            user.setId(UUID.randomUUID());
+//        } catch (IllegalArgumentException e) {
+//            // Обработка случая некорректного UUID
+//            model.addAttribute("error", "Некорректный идентификатор пользователя");
+//            return "error";
+//        }
+//
+//        if (userServiceImpl.authenticateUser(user.getEmail(), user.getPassword())) {
+//            // Логика успешной аутентификации
+//            model.addAttribute("user", userServiceImpl.findByEmail(user.getEmail()));
+//            return "redirect:/home";
+//        } else {
+//            model.addAttribute("error", "Неверный email или пароль");
+//            return "login";
+//        }
+//    }
 
-        if (userServiceImpl.authenticateUser(user.getEmail(), user.getPassword())) {
-            // Логика успешной аутентификации
-            model.addAttribute("user", userServiceImpl.findByEmail(user.getEmail()));
-            return "redirect:/home";
-        } else {
-            model.addAttribute("error", "Неверный email или пароль");
+
+    @PostMapping("/login")
+    public String loginUser(@Valid @ModelAttribute("user") User user, Model model) {
+        try {
+//            Long userId = Long.parseLong(id);
+//            User user = userServiceImpl.findByEmail(u.getEmail());
+            if (userServiceImpl.authenticateUser(user.getEmail(), user.getPassword())) {
+//                user.setId(userId);
+                model.addAttribute("user", user);
+                return "redirect:/home";
+            } else {
+                model.addAttribute("error", "Неверный email или пароль");
+                return "login";
+            }
+        } /*catch (NumberFormatException e) {
+            model.addAttribute("error", "Неверный формат идентификатора пользователя");
+            return "login";
+        } */ catch (Exception e) {
+            model.addAttribute("error", "Произошла ошибка во время входа");
             return "login";
         }
     }
 
-//    @PostMapping("/login")
-//    public String login(@Valid @ModelAttribute("user") User u, Model model) {
-//        try {
-//            UUID userId = UUID.fromString(String.valueOf(u.getId())); // Попытка преобразовать строку в UUID
-//            User user = userServiceImpl.findByEmail(u.getEmail());
-//            if (user != null && passwordEncoder.matches(u.getPassword(), user.getPassword())) {
-//                user.setId(userId);
-//                model.addAttribute("user", user);
-//                return "redirect:/home";
-//            } else {
-//                model.addAttribute("error", "Неверный email или пароль");
-//                return "login";
-//            }
-//        } catch (IllegalArgumentException | NullPointerException e) { // Перехватываем исключение типов IllegalArgumentException и NullPointerException
-//            UUID randomUUID = UUID.randomUUID(); // Генерируем случайный UUID
-//            u.setId(randomUUID); // Присваиваем случайный UUID объекту User
-//            User user = userServiceImpl.findByEmail(u.getEmail());
-//            if (user != null && passwordEncoder.matches(u.getPassword(), user.getPassword())) {
-//                user.setId(randomUUID);
-//                model.addAttribute("user", user);
-//                return "redirect:/home";
-//            } else {
-//                model.addAttribute("error", "Неверный email или пароль");
-//                return "login";
-//            }
-//        }
-//    }
-
-
-//    @PostMapping("/login")
-//    public String login(@ModelAttribute("user") User u, Model model) {
-//        try {
-//            UUID userId;
-//            try {
-//                userId = UUID.fromString(String.valueOf(u.getId())); // Пробуем преобразовать введенное значение в UUID
-//            } catch (IllegalArgumentException e) {
-//                throw new IllegalArgumentException("Некорректный идентификатор пользователя");
-//            }
-//
-//            User user = userServiceImpl.findByEmail(u.getEmail());
-//            if (user != null && passwordEncoder.matches(u.getPassword(), user.getPassword())) {
-//                user.setId(userId);
-//                model.addAttribute("user", user);
-//                return "redirect:/home";
-//            } else {
-//                model.addAttribute("error", "Неверный email или пароль");
-//                return "login";
-//            }
-//        } catch (IllegalArgumentException | NullPointerException e) {
-//            UUID randomUUID = UUID.randomUUID(); // Генерируем случайный UUID
-//            u.setId(randomUUID); // Присваиваем случайный UUID объекту User
-//            User user = userServiceImpl.findByEmail(u.getEmail());
-//            if (user != null && passwordEncoder.matches(u.getPassword(), user.getPassword())) {
-//                user.setId(randomUUID);
-//                model.addAttribute("user", user);
-//                return "redirect:/home";
-//            } else {
-//                model.addAttribute("error", "Неверный email или пароль");
-//                return "login";
-//            }
-//        }
-//    }
-
     @GetMapping("/registration")
     public String showRegistrationForm(Model model) {
         User user = new User();
-//        userServiceImpl.createUser(user);
         model.addAttribute("user", user);
-        //TODO возможно объединить форму регистрации и login а одной странице index(welcome page)!!!
         return "registration";
     }
 
@@ -132,9 +90,8 @@ public class UserController {
             model.addAttribute("user", user);
             return "registration";
         }
-        userServiceImpl.createUser(user); // Вызов метода для создания нового пользователя
+        userServiceImpl.createUser(user);
         userServiceImpl.saveUser(user);
-        // Отправка уведомления о выполненной регистрации
         notificationService.sendNotification("Регистрация выполнена");
         return "redirect:/registration?success";
     }
@@ -154,23 +111,3 @@ public class UserController {
         return "initSuccess";
     }
 }
-
-//    @PostMapping("/login")
-//    public String login(@ModelAttribute("user") User u, Model model) {
-//        try {
-//            UUID userId = u.getId();
-//            User user = userServiceImpl.findByEmail(u.getEmail());
-//            if (user != null && passwordEncoder.matches(u.getPassword(), user.getPassword())) {
-////                UUID randomUUID = UUID.randomUUID();
-//                user.setId(userId);
-//                model.addAttribute("user", user);
-//                return "redirect:/home";
-//            } else {
-//                model.addAttribute("error", "Неверный email или пароль");
-//                return "login";
-//            }
-//        } catch (IllegalArgumentException e) {
-//            model.addAttribute("error", "Неверный формат UUID");
-//            return "login";
-//        }
-//    }

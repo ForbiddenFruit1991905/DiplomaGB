@@ -15,6 +15,7 @@ public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @Column(name = " header", nullable = false)

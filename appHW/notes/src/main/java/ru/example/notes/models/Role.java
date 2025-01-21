@@ -15,6 +15,7 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     /**
@@ -28,8 +29,8 @@ public class Role {
      * Имя столбца, которое связывает таблицы users и roles
      */
 
-    @OneToOne(mappedBy = "role")
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+//    @OneToOne(mappedBy = "role")
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    private User user;
 
 }

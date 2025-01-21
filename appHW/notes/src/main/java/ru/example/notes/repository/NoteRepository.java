@@ -11,11 +11,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface NoteRepository extends JpaRepository<Note, Long> {
+public interface NoteRepository extends JpaRepository<Note, UUID> {
     List<Note> findAllByStatus(NoteStatus status);
     List<Note> findByUser(User user);
-
     Optional<Note> findById(UUID id);
-
     void deleteById(UUID id);
 }

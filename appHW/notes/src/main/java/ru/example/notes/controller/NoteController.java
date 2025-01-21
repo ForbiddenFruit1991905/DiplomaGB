@@ -1,6 +1,5 @@
 package ru.example.notes.controller;
 
-import io.micrometer.core.instrument.Counter;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,7 +10,6 @@ import ru.example.notes.models.Note ;
 import ru.example.notes.models.Planner;
 import ru.example.notes.models.User;
 import ru.example.notes.models.enums.NoteStatus;
-import ru.example.notes.service.FileGateway;
 import ru.example.notes.service.NoteService ;
 import ru.example.notes.service.PlannerService;
 import ru.example.notes.service.UserService;
@@ -25,8 +23,6 @@ public class NoteController {
 
     private final NoteService noteService;
     private UserService userService;
-    private final FileGateway fileGateway;
-    private final Counter counter;
     private PlannerService plannerService;
 
     @GetMapping("/home")
@@ -42,16 +38,14 @@ public class NoteController {
         model.addAttribute("notes",notes);
         return "notesList";
     }
-
-    // TODO Возможно, потребуется создать HTML страницу для отображения успешного создания планера
-    // TODO не используется метод createPlanner из сервиса 
+    
     @PostMapping("/createPlanner")
     public String createPlanner(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(authentication.getName());
         Planner planner = new Planner();
         user.setPlannerToUser(planner);
-        userService.saveUser(user); // Сохраняем пользователя с новым планером
+        userService.saveUser(user);
         plannerService.createPlanner(planner);
 
         return "createPlanner";
@@ -64,13 +58,10 @@ public class NoteController {
         user.addNoteToUser(note);
 
         note.setCreatedDate(LocalDateTime.now());
-        Note createdNote = noteService.createNote(note);
+        noteService.createNote(note);
 
         List<Note> noteList = noteService.getNotesByUser(user);
         model.addAttribute("notes", noteList);
-
-        counter.increment();
-        fileGateway.writeToFile(createdNote.getHeader() + ".txt", note.toString());
         
         return "createNote";
     }
@@ -109,7 +100,6 @@ public class NoteController {
         if (note == null) {
             return "notFoundView";
         }
-//
         noteService.getNoteById(id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         userService.findByEmail(authentication.getName());
