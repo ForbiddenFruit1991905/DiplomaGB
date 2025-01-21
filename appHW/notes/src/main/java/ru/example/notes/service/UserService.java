@@ -1,7 +1,6 @@
 package ru.example.notes.service;
 
 import ru.example.notes.models.User;
-
 import java.util.List;
 
 public interface UserService {

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import ru.example.notes.models.enums.NoteStatus;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -35,16 +34,10 @@ public class Note {
     @JoinColumn(name = "planner_id", nullable = false)
     private Planner planner;
 
-//    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "user_id")
-//    private User user;
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
     
     public Note() {
     }
-
 }

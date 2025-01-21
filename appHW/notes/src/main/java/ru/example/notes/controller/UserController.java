@@ -30,6 +30,7 @@ public class UserController {
     public String login(@ModelAttribute("user") User user, @PathVariable("id") String id, Model model) {
         try {
             UUID.fromString(id.trim());
+            user.setId(UUID.randomUUID());
         } catch (IllegalArgumentException e) {
             // Обработка случая некорректного UUID
             model.addAttribute("error", "Некорректный идентификатор пользователя");

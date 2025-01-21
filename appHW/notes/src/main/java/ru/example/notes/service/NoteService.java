@@ -3,7 +3,6 @@ package ru.example.notes.service;
 import ru.example.notes.models.Note ;
 import ru.example.notes.models.User;
 import ru.example.notes.models.enums.NoteStatus;
-
 import java.util.List;
 import java.util.UUID;
 

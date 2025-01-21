@@ -22,10 +22,6 @@ public class Planner {
     @Column(name = "description", length = 500)
     private String description;
 
-    //TODO Подумать как это можно реализовать
-//    @Column
-//    private Boolean isActive;
-
     @OneToMany(mappedBy = "planner", cascade = {CascadeType.MERGE, CascadeType.PERSIST},
             fetch = FetchType.EAGER)
     private List<Note> notes;
