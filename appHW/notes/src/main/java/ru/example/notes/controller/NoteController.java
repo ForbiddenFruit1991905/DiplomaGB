@@ -65,13 +65,6 @@ public class NoteController {
         return "createNote";
     }
 
-    /**
-     * "notFoundView" - имя представления для отображения 404 ошибки;
-     * "noteView" - имя представления для отображения информации о заметке
-     * @param id
-     * @param model
-     * @return
-     */
     @GetMapping("/{id}")
     public String getNoteById(@PathVariable("id") String id, Model model) {
         Note noteById;
@@ -87,13 +80,6 @@ public class NoteController {
         return "noteView";
     }
 
-    /**
-     * "updateNoteView" - имя представления для отображения информации об обновлении заметки
-     * @param id
-     * @param note
-     * @param model
-     * @return
-     */
     @PutMapping("/{id}")
     public String updateNote(@PathVariable("id") String id, @RequestBody Note note, Model model) {
         if (note == null) {
@@ -107,12 +93,6 @@ public class NoteController {
         return "redirect:/noteView";
     }
 
-    /**
-     * "deletedNoteView" - имя представления для подтверждения удаления заметки
-     * @param id
-     * @param model
-     * @return
-     */
     @DeleteMapping("/{id}")
     public String deleteNote(@PathVariable("id") String id, Model model) {
         Note note = noteService.getNoteById(id);
@@ -125,12 +105,6 @@ public class NoteController {
         return "redirect:/noteView";
     }
 
-    /**
-     * "statusNotesView" - имя представления для отображения заметок по статусу
-     * @param status
-     * @param model
-     * @return
-     */
     @GetMapping("/status/{status}")
     public String getTasksByStatus(@PathVariable NoteStatus status, Model model) {
         List<Note> notesByStatus = noteService.getTasksByStatus(status);

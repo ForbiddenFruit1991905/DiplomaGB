@@ -41,7 +41,7 @@ public class NoteServiceImpl implements NoteService {
             note.setStatus(noteDetails.getStatus());
             return noteRepository.save(note);
         } else {
-            throw  new IllegalArgumentException("Note is not found");
+            throw  new IllegalArgumentException("Запись не найдена");
         }
     }
 
