@@ -15,7 +15,6 @@ import ru.example.notes.service.PlannerService;
 import ru.example.notes.service.UserService;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @AllArgsConstructor
 @Controller
@@ -74,7 +73,7 @@ public class NoteController {
      * @return
      */
     @GetMapping("/{id}")
-    public String getNoteById(@PathVariable("id") UUID id, Model model) {
+    public String getNoteById(@PathVariable("id") String id, Model model) {
         Note noteById;
         try {
             noteById = noteService.getNoteById(id);
@@ -96,7 +95,7 @@ public class NoteController {
      * @return
      */
     @PutMapping("/{id}")
-    public String updateNote(@PathVariable("id") UUID id, @RequestBody Note note, Model model) {
+    public String updateNote(@PathVariable("id") String id, @RequestBody Note note, Model model) {
         if (note == null) {
             return "notFoundView";
         }
@@ -115,7 +114,7 @@ public class NoteController {
      * @return
      */
     @DeleteMapping("/{id}")
-    public String deleteNote(@PathVariable("id") UUID id, Model model) {
+    public String deleteNote(@PathVariable("id") String id, Model model) {
         Note note = noteService.getNoteById(id);
         User user = note.getUser();
         user.getNotes().remove(note);

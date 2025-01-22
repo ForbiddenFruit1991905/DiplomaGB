@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import ru.example.notes.models.enums.RoleName;
-import java.util.UUID;
 
 @Setter
 @Getter
@@ -17,8 +16,8 @@ public class Role {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    @Column(name = "id", columnDefinition = "VARCHAR(40)", updatable = false, nullable = false)
+    private String id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role_name", length = 50)

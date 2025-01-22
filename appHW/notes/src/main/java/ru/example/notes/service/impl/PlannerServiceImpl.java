@@ -6,7 +6,6 @@ import ru.example.notes.models.Planner;
 import ru.example.notes.repository.PlannerRepository;
 import ru.example.notes.service.PlannerService;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +24,7 @@ public class PlannerServiceImpl implements PlannerService {
     }
 
     @Override
-    public Planner getPlannerById(UUID id) {
+    public Planner getPlannerById(String id) {
         return plannerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException((Throwable) null));
     }
 
@@ -40,7 +39,7 @@ public class PlannerServiceImpl implements PlannerService {
     }
 
     @Override
-    public void deletePlanner(UUID id) {
+    public void deletePlanner(String id) {
         Planner plannerById = getPlannerById(id);
         plannerRepository.delete(plannerById);
     }

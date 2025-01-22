@@ -11,7 +11,6 @@ import ru.example.notes.service.NoteService ;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @AllArgsConstructor
 @Service
@@ -27,13 +26,13 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     @TrackUserAction
-    public Note getNoteById(UUID id) {
+    public Note getNoteById(String id) {
         return noteRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Запись не найдена"));
     }
 
     @Override
     @TrackUserAction
-    public Note updateNote(UUID id, Note noteDetails) {
+    public Note updateNote(String id, Note noteDetails) {
         Optional<Note> optionalNote = noteRepository.findById(id);
         if (optionalNote.isPresent()){
             Note note = optionalNote.get();
@@ -60,7 +59,7 @@ public class NoteServiceImpl implements NoteService {
  
     @Override
     @TrackUserAction
-    public void deleteNote(UUID id) {
+    public void deleteNote(String id) {
         noteRepository.deleteById(id);
     }
 

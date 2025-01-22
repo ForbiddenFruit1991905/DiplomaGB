@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Entity
@@ -16,8 +15,8 @@ public class Planner {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    @Column(name = "id", columnDefinition = "VARCHAR(40)", updatable = false, nullable = false)
+    private String id;
 
     @Column(name = "title", nullable = false, length = 50)
     private String title;
