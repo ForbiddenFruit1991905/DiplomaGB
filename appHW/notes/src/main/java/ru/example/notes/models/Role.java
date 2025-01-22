@@ -2,6 +2,7 @@ package ru.example.notes.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import ru.example.notes.models.enums.RoleName;
 import java.util.UUID;
 
@@ -14,23 +15,13 @@ import java.util.UUID;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    /**
-     * Отдельный столбец для хранения имени роли
-     */
     @Enumerated(EnumType.STRING)
     @Column(name = "role_name", length = 50)
     private RoleName roleName;
-
-    /**
-     * Имя столбца, которое связывает таблицы users и roles
-     */
-
-//    @OneToOne(mappedBy = "role")
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
-//    private User user;
 
 }

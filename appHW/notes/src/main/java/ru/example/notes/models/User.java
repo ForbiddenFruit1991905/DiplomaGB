@@ -6,9 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serial;
-import java.io.Serializable;
+import org.hibernate.annotations.GenericGenerator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,7 +19,8 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
@@ -45,18 +44,10 @@ public class User {
             fetch = FetchType.EAGER)
     private List<Note> notes = new ArrayList<>();
 
-    /**
-     * Имя столбца, которое связывает таблицы users и roles
-     */
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
 
-    /**
-     * Имя столбца, которое связывает таблицы users и planner
-     */
-//    @OneToOne
-//    @JoinColumn(name = "owner", referencedColumnName = "id")
     @OneToOne(mappedBy = "owner")
     private Planner planner;
     
